@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Green Waste - Slide Presentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Inter, sans-serif; margin:0; background: linear-gradient(180deg,#ecffe9 0%, #f0fbff 100%); }
+    .slide { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:3rem; box-sizing:border-box; opacity:0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+    .slide.active { opacity:1; transform: translateY(0); }
+    /* Carousel styles */
+    #carouselViewport { overflow-x: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+    #track { display:flex; gap:1.25rem; align-items:center; padding:1rem 0; }
+    .card { flex: 0 0 62%; /* each card ~62% of viewport width (nửa màn hình look) */
+            background: rgba(255,255,255,0.95);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display:flex;
+            gap:1.25rem;
+            padding:1.25rem;
+            align-items:center;
+            transition: transform .28s ease, box-shadow .28s ease;
+          }
+    .card img { width:220px; height:220px; object-fit: cover; border-radius:10px; flex-shrink:0; }
+    .card .info h3 { font-size:1.6rem; margin:0 0 .25rem 0; color:#065f46; }
+    .card .info p { margin:0; color:#475569; font-weight:500; }
+    .card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 18px 40px rgba(2,6,23,0.12); }
+    .nav-btn { position:absolute; top:50%; transform:translateY(-50%); background: rgba(2,6,23,0.75); color:white; width:44px; height:44px; border-radius:999px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 8px 20px rgba(2,6,23,0.18); }
+    .nav-left { left:1rem; }
+    .nav-right { right:1rem; }
+    .dots { display:flex; gap:.5rem; align-items:center; justify-content:center; margin-top:1rem; }
+    .dot { width:10px; height:10px; border-radius:999px; background:rgba(15,23,42,0.12); cursor:pointer; }
+    .dot.active { background: #16a34a; box-shadow: 0 4px 12px rgba(22,163,74,0.18); }
+    /* small screens */
+    @media (max-width: 768px) {
+      .card { flex: 0 0 86%; padding:1rem; }
+      .card img { width:140px; height:140px; }
+      .nav-left, .nav-right { width:38px; height:38px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1: Cover -->
+  <section class="slide bg-gradient-to-r from-green-600 to-blue-600 text-white" id="cover">
+    <div class="max-w-4xl text-center px-6">
+      <div style="width:140px;height:140px;border-radius:999px;margin:0 auto;display:flex;align-items:center;justify-content:center;
+                  background:linear-gradient(135deg,#16a34a,#22c55e);font-weight:800;font-size:34px;box-shadow:0 18px 40px rgba(16,185,129,0.2);">
+        ECO
+      </div>
+      <h1 class="text-5xl font-extrabold mt-6">Green Waste Company</h1>
+      <p class="mt-4 text-2xl italic">"Vì 1 môi trường xanh sạch đẹp"</p>
+      <p class="mt-6 max-w-2xl mx-auto text-lg">Giải pháp xử lý rác thải bền vững — thu gom, phân loại, xử lý & tái chế.</p>
+    </div>
+  </section>
+
+  <!-- Slide 2: Giới thiệu -->
+  <section class="slide bg-white text-gray-800" id="about">
+    <div class="max-w-4xl mx-auto px-4 text-left">
+      <h2 class="text-3xl font-bold text-green-700 mb-4">Giới thiệu công ty</h2>
+      <p class="mb-4 text-lg">Green Waste (The Rising) là nhóm/đơn vị hoạt động trong lĩnh vực thu gom, xử lý và tái chế rác thải, hướng tới hệ sinh thái bền vững cho cộng đồng.</p>
+      <div class="grid md:grid-cols-3 gap-4 text-base">
+        <div class="p-4 bg-green-50 rounded-lg"><strong>Tầm nhìn</strong><br>Tiên phong công nghệ xử lý rác tại VN.</div>
+        <div class="p-4 bg-blue-50 rounded-lg"><strong>Sứ mệnh</strong><br>Giảm ô nhiễm, tái sử dụng tài nguyên, bảo vệ môi trường.</div>
+        <div class="p-4 bg-yellow-50 rounded-lg"><strong>Giá trị</strong><br>Sáng tạo – Bền vững – Trách nhiệm.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3: Dịch vụ -->
+  <section class="slide bg-gradient-to-r from-blue-50 to-green-100 text-gray-900" id="services">
+    <div class="max-w-4xl mx-auto px-4 text-left">
+      <h2 class="text-3xl font-bold text-blue-600 mb-4">Dịch vụ & Giải pháp</h2>
+      <ul class="list-disc list-inside space-y-3 text-lg">
+        <li>Thu gom, phân loại rác thải công nghiệp & sinh hoạt.</li>
+        <li>Ứng dụng đồng xử lý trong lò xi măng (co-processing) & thu hồi năng lượng.</li>
+        <li>Tái chế vật liệu, sản phẩm tái sử dụng, và tư vấn kỹ thuật môi trường.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 4: Thành viên (Carousel nửa màn hình) -->
+  <section class="slide bg-white text-gray-900" id="team">
+    <div class="w-full max-w-5xl mx-auto px-4 relative">
+      <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Thành viên nhóm</h2>
+
+      <!-- Carousel viewport -->
+      <div id="carouselViewport" class="mx-auto" style="width:100%; position:relative;">
+        <div id="track">
+          <!-- 1) Hùng -->
+          <div class="card">
+            <img src="../code/8872511d6969e337ba78.jpg" alt="Nguyễn Mạnh Hùng">
+            <div class="info">
+              <h3>Nguyễn Mạnh Hùng</h3>
+              <p>Kỹ sư xử lý</p>
+              <p class="mt-3 text-sm text-gray-500">Phụ trách kỹ thuật vận hành và tối ưu quy trình xử lý.</p>
+            </div>
+          </div>
+
+          <!-- 2) Đạt -->
+          <div class="card">
+            <img src="../code/2439060088066619612.jpg" alt="Lê Sỹ Quốc Đạt">
+            <div class="info">
+              <h3>Lê Sỹ Quốc Đạt</h3>
+              <p>Thiết kế & Báo cáo</p>
+              <p class="mt-3 text-sm text-gray-500">Thiết kế giao diện, báo cáo kỹ thuật và trình bày.</p>
+            </div>
+          </div>
+
+          <!-- 3) Quang -->
+          <div class="card">
+            <img src="../code/b8b44cac74d8fe86a7c9.jpg" alt="Huỳnh Đăng Quang">
+            <div class="info">
+              <h3>Huỳnh Đăng Quang</h3>
+              <p>Truyền thông</p>
+              <p class="mt-3 text-sm text-gray-500">Chịu trách nhiệm truyền thông, nội dung & cộng tác xã hội.</p>
+            </div>
+          </div>
+
+          <!-- 4) Duy Tân -->
+          <div class="card">
+            <img src="../code/329018a020d4aa8af3c5.jpg" alt="Trần Duy Tân">
+            <div class="info">
+              <h3>Trần Duy Tân</h3>
+              <p>Nhóm trưởng - CEO</p>
+              <p class="mt-3 text-sm text-gray-500">Lãnh đạo dự án, điều phối nhóm và liên hệ đối tác.</p>
+            </div>
+          </div>
+
+          <!-- 5) Quang Huy -->
+          <div class="card">
+            <img src="../code/a2e65c886bfce1a2b8ed.jpg" alt="Trần Quang Huy">
+            <div class="info">
+              <h3>Trần Quang Huy</h3>
+              <p>Chuyên gia môi trường</p>
+              <p class="mt-3 text-sm text-gray-500">Tư vấn kỹ thuật môi trường và chuẩn hóa quy trình xử lý.</p>
+            </div>
+          </div>
+
+        </div> <!-- end track -->
+      </div> <!-- end viewport -->
+
+      <!-- Nav buttons -->
+      <div class="nav-btn nav-left" id="prevBtn" aria-label="Previous" title="Previous">⏪</div>
+      <div class="nav-btn nav-right" id="nextBtn" aria-label="Next" title="Next">⏩</div>
+
+      <!-- Dots -->
+      <div class="dots" id="dotsContainer" style="margin-top:1.25rem;"></div>
+    </div>
+  </section>
+
+  <!-- Slide 5: Contact / Kết thúc -->
+  <section class="slide bg-gradient-to-r from-green-600 to-blue-600 text-white" id="contact">
+    <div class="max-w-3xl text-center px-6">
+      <h2 class="text-3xl font-bold mb-3">Cảm ơn!</h2>
+      <p class="mb-4">Green Waste Company — Vì 1 môi trường xanh sạch đẹp.</p>
+      <p>📧 contact@greenfuture.vn | ☎️ 0123 456 789</p>
+    </div>
+  </section>
+
+  <!-- IntersectionObserver để animate slide khi cuộn -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) e.target.classList.add('active');
+        });
+      }, { threshold: 0.35 });
+      slides.forEach(s => io.observe(s));
+    });
+  </script>
+
+  <!-- Carousel JS: center, prev/next, dots, swipe, snap-to-nearest -->
+  <script>
+    (function(){
+      const viewport = document.getElementById('carouselViewport');
+      const track = document.getElementById('track');
+      const cards = Array.from(track.children);
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const dotsContainer = document.getElementById('dotsContainer');
+      let current = 0;
+      let isPointerDown = false, startX = 0, startScroll = 0, isDragging = false;
+      let scrollTimeout;
+
+      // create dots
+      cards.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i===0 ? ' active' : '');
+        d.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(d);
+      });
+      const dots = Array.from(dotsContainer.children);
+
+      // center given index
+      function goTo(i) {
+        current = (i + cards.length) % cards.length;
+        const card = cards[current];
+        const viewportRect = viewport.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+        // compute offset so card centered in viewport
+        const offsetLeft = card.offsetLeft - (viewport.clientWidth - card.offsetWidth) / 2;
+        viewport.scrollTo({ left: offsetLeft, behavior: 'smooth' });
+        updateDots();
+      }
+
+      function updateDots(){
+        dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+      }
+
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+
+      // on load, center first card after a tick
+      window.addEventListener('load', () => setTimeout(()=> goTo(0), 150));
+
+      // pointer / drag support
+      viewport.addEventListener('pointerdown', (e) => {
+        isPointerDown = true;
+        startX = e.clientX;
+        startScroll = viewport.scrollLeft;
+        viewport.setPointerCapture(e.pointerId);
+      });
+      viewport.addEventListener('pointermove', (e) => {
+        if (!isPointerDown) return;
+        isDragging = true;
+        const dx = e.clientX - startX;
+        viewport.scrollLeft = startScroll - dx;
+        // cancel any pending snap
+        clearTimeout(scrollTimeout);
+      });
+      viewport.addEventListener('pointerup', (e) => {
+        if (!isPointerDown) return;
+        isPointerDown = false;
+        viewport.releasePointerCapture(e.pointerId);
+        // detect flick (if moved enough)
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 60) {
+          if (dx < 0) goTo(current + 1); else goTo(current - 1);
+        } else {
+          // snap to nearest
+          snapToNearest();
+        }
+        isDragging = false;
+      });
+      viewport.addEventListener('pointercancel', () => {
+        isPointerDown = false;
+        isDragging = false;
+        snapToNearest();
+      });
+
+      // on scroll, debounce snapping to nearest card when stopped
+      viewport.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => snapToNearest(), 120);
+      });
+
+      // compute nearest card to center of viewport
+      function snapToNearest() {
+        const vpRect = viewport.getBoundingClientRect();
+        let nearest = 0;
+        let nearestDist = Infinity;
+        cards.forEach((card, idx) => {
+          const r = card.getBoundingClientRect();
+          // center distance
+          const centerCard = (r.left + r.right) / 2;
+          const centerVp = (vpRect.left + vpRect.right) / 2;
+          const dist = Math.abs(centerCard - centerVp);
+          if (dist < nearestDist) { nearestDist = dist; nearest = idx; }
+        });
+        goTo(nearest);
+      }
+
+      // keyboard support
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+      });
+
+      // responsive: recenter current on resize
+      window.addEventListener('resize', () => setTimeout(()=> goTo(current), 120));
+    })();
+  </script>
+</body>
+</html>
